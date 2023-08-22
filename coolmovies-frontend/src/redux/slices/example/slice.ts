@@ -1,29 +1,33 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ExampleState {
   value: number;
   sideEffectCount: number;
-  fetchData?: unknown[];
+  allMovies?: any;
 }
 
 const initialState: ExampleState = {
   value: 0,
   sideEffectCount: 0,
+
+  allMovies: {
+    nodes: [],
+  },
 };
 
 export const slice = createSlice({
   initialState,
-  name: 'example',
+  name: "movies",
   reducers: {
     fetch: () => {},
     clearData: (state) => {
-      state.fetchData = undefined;
+      state.allMovies = undefined;
     },
     loaded: (state, action: PayloadAction<{ data: unknown[] }>) => {
-      state.fetchData = action.payload.data;
+      state.allMovies = action.payload.data;
     },
     loadError: (state) => {
-      state.fetchData = ['Error Fetching :('];
+      state.allMovies = ["Error Fetching :("];
     },
     increment: (state) => {
       state.value += 1;
