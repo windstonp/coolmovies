@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { moviesReducer, moviesEpics } from "./slices";
+import { moviesReducer, moviesEpics, authEpics, authReducer } from "./slices";
 import { combineEpics, createEpicMiddleware } from "redux-observable";
 import { CreateStoreOptions } from "./types";
 
-const rootEpic = combineEpics(moviesEpics);
+const rootEpic = combineEpics(moviesEpics, authEpics);
 
 export const createStore = ({ epicDependencies }: CreateStoreOptions) => {
   const epicMiddleware = createEpicMiddleware({
@@ -16,6 +16,7 @@ export const createStore = ({ epicDependencies }: CreateStoreOptions) => {
       getDefaultMiddleware().concat(epicMiddleware),
     reducer: {
       movies: moviesReducer,
+      auth: authReducer,
     },
   });
 

@@ -19,21 +19,12 @@ export const slice = createSlice({
   initialState,
   name: "movies",
   reducers: {
-    fetch: () => {},
-    clearData: (state) => {
-      state.allMovies = undefined;
-    },
-    loaded: (state, action: PayloadAction<{ data: unknown[] }>) => {
+    fetchMovies: () => {},
+    getMovies: (state, action: PayloadAction<{ data: unknown[] }>) => {
       state.allMovies = action.payload.data;
     },
-    loadError: (state) => {
+    getMoviesError: (state) => {
       state.allMovies = ["Error Fetching :("];
-    },
-    increment: (state) => {
-      state.value += 1;
-    },
-    epicSideEffect: (state) => {
-      state.sideEffectCount += 1;
     },
   },
 });

@@ -6,6 +6,9 @@ import Head from "next/head";
 import { createStore } from "../redux";
 import { EnhancedStore } from "@reduxjs/toolkit";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ThemeProvider } from "@mui/material";
+import { theme } from "../styles/theme";
+import { NavBar } from "../components/navbar";
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   const [store, setStore] = useState<EnhancedStore | null>(null);
@@ -27,9 +30,12 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <ReduxProvider store={store}>
-        <Component {...pageProps} />
-      </ReduxProvider>
+      <ThemeProvider theme={theme}>
+        <ReduxProvider store={store}>
+          <NavBar />
+          <Component {...pageProps} />
+        </ReduxProvider>
+      </ThemeProvider>
     </>
   );
 };
