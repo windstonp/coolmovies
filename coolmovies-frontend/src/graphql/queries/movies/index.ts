@@ -20,3 +20,18 @@ export const moviesQuery = gql`
     }
   }
 `;
+
+export const allMovieReviewsById = gql`
+  {
+    allMovieReviews(filter: { movieId: $movieId }) {
+      nodes {
+        title
+        body
+        rating
+        movieByMovieId {
+          title
+        }
+      }
+    }
+  }
+`;

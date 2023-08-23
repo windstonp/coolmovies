@@ -1,22 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type User = {
+export type User = {
   id: string;
   name: string;
 };
+
 interface AuthState {
   currentUser?: User;
   allUsers: {
     nodes: User[];
   };
-  currentUserError?: string;
   allUsersError?: string;
 }
 
 const initialState: AuthState = {
   currentUser: {} as User,
   allUsers: { nodes: [] },
-  currentUserError: undefined,
   allUsersError: undefined,
 };
 
