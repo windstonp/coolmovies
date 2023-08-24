@@ -9,12 +9,19 @@ import {
   Rating,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { reviewCreateSchema } from "../../../../validators";
+import { useDispatch } from "react-redux";
+import { moviesActions, useAppSelector } from "../../../../redux";
 
-export function CreateReviewForm() {
+type Props = {
+  movieId: string;
+};
+export function CreateReviewForm({ movieId }: Props) {
+  const { currentUser } = useAppSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -23,7 +30,15 @@ export function CreateReviewForm() {
   } = useForm({ resolver: yupResolver(reviewCreateSchema) });
 
   function SubmitCreateForm(data: any) {
-    console.log(data);
+    dispatch(
+      moviesActions.createMovieReview({
+        data: {
+          ...data,
+          movieId,
+          userReviewerId: currentUser?.id,
+        },
+      })
+    );
   }
   return (
     <Paper elevation={4} sx={{ padding: 2 }}>
@@ -45,7 +60,7 @@ export function CreateReviewForm() {
                     onChange={onChange}
                     value={Number(value)}
                   />
-                  <Typography color="red" component="span" variant="caption">
+                  <Typography color="error" component="span" variant="caption">
                     {errors?.rating?.message ? errors?.rating?.message : ""}
                   </Typography>
                 </div>
@@ -61,7 +76,7 @@ export function CreateReviewForm() {
               {...register("title")}
               label="Title"
             />
-            <Typography color="red" variant="caption">
+            <Typography color="error" variant="caption">
               {errors?.title?.message ? errors?.title?.message : ""}
             </Typography>
           </FormControl>
@@ -74,7 +89,7 @@ export function CreateReviewForm() {
               {...register("body")}
               label="Review this movie!"
             />
-            <Typography color="red" variant="caption">
+            <Typography color="error" variant="caption">
               {errors?.body?.message ? errors?.body?.message : ""}
             </Typography>
           </FormControl>

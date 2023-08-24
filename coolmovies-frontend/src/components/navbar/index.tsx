@@ -1,19 +1,18 @@
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
 export function NavBar() {
   return (
     <Grid
-      justifyContent="space-evenly"
       container
-      p={4}
       mb={4}
-      className="navbar"
+      justifyContent="center"
+      sx={{ backgroundColor: "primary.main" }}
     >
-      <Grid item>
+      <Box textAlign="center" p={4} sx={{ color: "white" }}>
         <Typography variant="h4" component="div">
           EcoPortal Coolmovies Test
         </Typography>
-      </Grid>
+      </Box>
     </Grid>
   );
 }

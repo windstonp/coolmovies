@@ -15,16 +15,22 @@ const Movies: NextPage = () => {
   const router = useRouter();
   const {
     allMovies: { allMovies },
-    selectedMovie,
   } = useAppSelector((state) => state.movies);
+
+  const { currentUser } = useAppSelector((state) => state.auth);
 
   function goToSelectedMovie(item: any) {
     dispatch(moviesActions.setSelectedMovie({ selected: item }));
     router.push(`/reviews/${item.id}`);
   }
+
   useEffect(() => {
     dispatch(moviesActions.fetchMovies());
   }, []);
+
+  if (!currentUser?.id) {
+    router.push("/");
+  }
 
   return (
     <Grid container justifyContent="center">

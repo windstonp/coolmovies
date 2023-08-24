@@ -6,11 +6,17 @@ import { ReviewScreen } from "../../screens/reviews";
 
 function MovieReviews() {
   const { reviews, selectedMovie } = useAppSelector((state) => state.movies);
+  const { currentUser } = useAppSelector((state) => state.auth);
+
   const dispatch = useDispatch();
 
   const router = useRouter();
 
-  if (!selectedMovie.id) {
+  if (!currentUser?.id) {
+    router.push("/");
+  }
+
+  if (!selectedMovie?.id) {
     router.push("/movies");
   }
 
@@ -18,7 +24,8 @@ function MovieReviews() {
     if (router.query.id) {
       dispatch(moviesActions.fetchReviewsByMovieId({ id: router.query.id }));
     }
-  }, []);
+  });
+  console.log(reviews);
 
   return <ReviewScreen reviews={reviews} selectedMovie={selectedMovie} />;
 }

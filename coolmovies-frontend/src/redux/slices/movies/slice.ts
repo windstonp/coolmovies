@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 
 interface MovieState {
   value: number;
@@ -24,6 +24,7 @@ export const slice = createSlice({
   reducers: {
     fetchMovies: () => {},
     fetchReviewsByMovieId: (state, action: PayloadAction<{ id: any }>) => {},
+    createMovieReview: (state, action: PayloadAction<{ data: any }>) => {},
     getMovies: (state, action: PayloadAction<{ data: unknown[] }>) => {
       state.allMovies = action.payload.data;
     },
@@ -32,6 +33,17 @@ export const slice = createSlice({
     },
     getReviews: (state, action: PayloadAction<{ data: unknown[] }>) => {
       state.reviews = action.payload.data;
+    },
+    addNewReviewToList: (
+      state,
+      action: PayloadAction<{ createMovieReview: any }>
+    ) => {
+      if (current(state.reviews?.allMovieReviews?.nodes)) {
+        state.reviews.allMovieReviews.nodes = [
+          action.payload.createMovieReview.movieReview,
+          ...state.reviews.allMovieReviews.nodes,
+        ];
+      }
     },
     getReviewsError: (state) => {
       state.reviews = ["Error Fetching :("];

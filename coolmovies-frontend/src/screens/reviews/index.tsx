@@ -133,7 +133,7 @@ export function ReviewScreen({
             </Paper>
           </Grid>
           <Grid item xs={12} mb={2}>
-            <CreateReviewForm />
+            <CreateReviewForm movieId={selectedMovie.id} />
           </Grid>
         </Grid>
       </Grid>

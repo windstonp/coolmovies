@@ -31,15 +31,15 @@ You will be evaluated against your ability to understand and use the tooling pro
 
 There are 3 main components for this feature, they **MUST** be completed and working:
 
-1. Listing of the movie reviews.
+1. Listing of the movie reviews.✅
 2. Editing the existing movie reviews.
 3. Adding additional reviews.
 
 Additional things we would like to see, you **must do at least 5** of these:
 
-1. The feature is available on the `/reviews` endpoint of the application.
-2. The design is responsive.
-3. Our designers don't like the default MUI blue. Change this.
+1. The feature is available on the `/reviews` endpoint of the application.✅
+2. The design is responsive.✅
+3. Our designers don't like the default MUI blue. Change this. ✅
 4. Make the proxied GraphQL URL an environment variable.
 5. Improve the folder structure of the frontend application how you see fit. (It's intentionally not great)
 6. Add the custom `edit.svg` from the `public` folder as an icon to launch editing the review.

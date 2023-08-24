@@ -4,7 +4,14 @@ export const theme = responsiveFontSizes(
   createTheme({
     palette: {
       primary: {
-        main: "#0943b8",
+        main: "#2c96e8",
+        dark: "#1263a1",
+        light: "#75bbf0",
+      },
+      info: {
+        main: "#888888",
+        dark: "#444444",
+        light: "#aaaaaa",
       },
     },
     typography: {
