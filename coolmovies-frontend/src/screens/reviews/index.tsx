@@ -7,15 +7,41 @@ import {
   ListItem,
   ListItemText,
   Paper,
+  Rating,
   Typography,
 } from "@mui/material";
 import { stringAvatar } from "../../utils";
 import { CreateReviewForm } from "./components/createReviewForm";
+import StarIcon from "@mui/icons-material/Star";
 
-export function ReviewScreen({ selectedMovie, reviews }: any) {
+export function ReviewScreen({
+  selectedMovie,
+  reviews: { allMovieReviews },
+}: any) {
+  let averageRating = 0;
+
+  if (allMovieReviews?.nodes.length > 0) {
+    const totalRatings = allMovieReviews?.nodes.reduce(
+      (sum: number, item: any) => sum + item.rating,
+      0
+    );
+
+    averageRating = totalRatings / allMovieReviews?.nodes.length;
+  }
   return (
     <Container>
       <Grid item xs={10}>
+        <Grid item xs={12} textAlign="center">
+          <Rating
+            readOnly
+            value={averageRating}
+            size="large"
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
+          />
+        </Grid>
+
         <Typography textAlign="center" variant="h1" mb={4}>
           {selectedMovie.title} (
           {new Date(selectedMovie.releaseDate).toLocaleDateString()})
@@ -47,7 +73,7 @@ export function ReviewScreen({ selectedMovie, reviews }: any) {
                   width: "100%",
                 }}
               >
-                {reviews.allMovieReviews?.nodes.map((item: any) => (
+                {allMovieReviews?.nodes.map((item: any) => (
                   <div key={item.id}>
                     <ListItem alignItems="flex-start">
                       <ListItemText
@@ -60,23 +86,44 @@ export function ReviewScreen({ selectedMovie, reviews }: any) {
                       my={2}
                       px={2}
                       spacing={2}
-                      justifyContent="flex-end"
+                      justifyContent="space-between"
                       alignItems="center"
                     >
                       <Grid item>
-                        <Avatar
-                          {...stringAvatar(item.userByUserReviewerId.name, 30)}
+                        <Rating
+                          readOnly
+                          value={item.rating}
+                          size="small"
+                          emptyIcon={
+                            <StarIcon
+                              style={{ opacity: 0.55 }}
+                              fontSize="inherit"
+                            />
+                          }
                         />
                       </Grid>
                       <Grid item>
-                        <Typography
-                          sx={{ display: "inline" }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
+                        <Grid
+                          container
+                          justifyContent="center"
+                          alignItems="center"
                         >
-                          {item.userByUserReviewerId.name}
-                        </Typography>
+                          <Avatar
+                            {...stringAvatar(
+                              item.userByUserReviewerId.name,
+                              30
+                            )}
+                          />
+
+                          <Typography
+                            sx={{ display: "inline", marginLeft: 2 }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                          >
+                            {item.userByUserReviewerId.name}
+                          </Typography>
+                        </Grid>
                       </Grid>
                     </Grid>
                     <Divider variant="inset" component="li" />
