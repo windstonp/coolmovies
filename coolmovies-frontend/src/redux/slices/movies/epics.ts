@@ -8,7 +8,10 @@ import {
   QUERY_ALL_MOVIE_REVIEWS_BY_MOVIE_ID,
   QUERY_GET_ALL_MOVIES,
 } from "../../../graphql/queries/movies";
-import { MUTATION_CREATE_MOVIE_REVIEW } from "../../../graphql/mutation/moviesReview";
+import {
+  MUTATION_CREATE_MOVIE_REVIEW,
+  MUTATION_EDIT_MOVIE_REVIEW_BY_ID,
+} from "../../../graphql/mutation/moviesReview";
 
 export const moviesAsyncEpic: Epic = (
   action$: Observable<SliceAction["fetchMovies"]>,
@@ -43,6 +46,7 @@ export const fetchReviewsAsyncEpic: Epic = (
           variables: {
             movieId: payload.id,
           },
+          fetchPolicy: "no-cache",
         });
         return actions.getReviews({ data: result.data });
       } catch (err) {
@@ -52,12 +56,12 @@ export const fetchReviewsAsyncEpic: Epic = (
   );
 
 export const createMovieReviewAsyncEpic: Epic = (
-  action$: Observable<SliceAction["createMovieReview"]>,
+  action$: Observable<SliceAction["fetchCreateMovieReview"]>,
   state$: StateObservable<RootState>,
   { client }: EpicDependencies
 ) =>
   action$.pipe(
-    filter(actions.createMovieReview.match),
+    filter(actions.fetchCreateMovieReview.match),
     switchMap(async ({ payload }: any) => {
       try {
         const result = await client.mutate({
@@ -69,6 +73,33 @@ export const createMovieReviewAsyncEpic: Epic = (
           },
         });
         return actions.addNewReviewToList(result.data);
+      } catch (err) {
+        return actions.getReviewsError();
+      }
+    })
+  );
+
+export const editMovieReviewAsyncEpic: Epic = (
+  action$: Observable<SliceAction["fetchEditMovieReviewById"]>,
+  state$: StateObservable<RootState>,
+  { client }: EpicDependencies
+) =>
+  action$.pipe(
+    filter(actions.fetchEditMovieReviewById.match),
+    switchMap(async ({ payload }: any) => {
+      try {
+        const result = await client.mutate({
+          mutation: MUTATION_EDIT_MOVIE_REVIEW_BY_ID,
+          variables: {
+            input: {
+              id: payload.data.id,
+              movieReviewPatch: {
+                ...payload.data,
+              },
+            },
+          },
+        });
+        return actions.updateReviewFromReviewList(result.data);
       } catch (err) {
         return actions.getReviewsError();
       }

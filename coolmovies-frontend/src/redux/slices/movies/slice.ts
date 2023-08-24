@@ -1,16 +1,12 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 
 interface MovieState {
-  value: number;
-  sideEffectCount: number;
   allMovies?: any;
   reviews?: any;
   selectedMovie: any;
 }
 
 const initialState: MovieState = {
-  value: 0,
-  sideEffectCount: 0,
   reviews: [],
   allMovies: {
     nodes: [],
@@ -24,7 +20,11 @@ export const slice = createSlice({
   reducers: {
     fetchMovies: () => {},
     fetchReviewsByMovieId: (state, action: PayloadAction<{ id: any }>) => {},
-    createMovieReview: (state, action: PayloadAction<{ data: any }>) => {},
+    fetchEditMovieReviewById: (
+      state,
+      action: PayloadAction<{ data: any }>
+    ) => {},
+    fetchCreateMovieReview: (state, action: PayloadAction<{ data: any }>) => {},
     getMovies: (state, action: PayloadAction<{ data: unknown[] }>) => {
       state.allMovies = action.payload.data;
     },
@@ -44,6 +44,25 @@ export const slice = createSlice({
             ...current(state.reviews.allMovieReviews.nodes),
             action.payload.createMovieReview.movieReview,
           ],
+        },
+      };
+    },
+    updateReviewFromReviewList: (
+      state,
+      { payload }: PayloadAction<{ updateMovieReviewById: any }>
+    ) => {
+      let actualNodes = current(state.reviews.allMovieReviews.nodes);
+
+      const items = actualNodes.map((item: any) => {
+        if (item.id === payload.updateMovieReviewById.movieReview.id) {
+          return { ...item, ...payload.updateMovieReviewById.movieReview };
+        }
+        return item;
+      });
+
+      state.reviews = {
+        allMovieReviews: {
+          nodes: items,
         },
       };
     },

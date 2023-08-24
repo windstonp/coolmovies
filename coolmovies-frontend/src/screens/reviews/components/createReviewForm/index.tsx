@@ -32,7 +32,7 @@ export function CreateReviewForm({ movieId }: Props) {
 
   function SubmitCreateForm(data: any) {
     dispatch(
-      moviesActions.createMovieReview({
+      moviesActions.fetchCreateMovieReview({
         data: {
           ...data,
           movieId,

@@ -32,7 +32,7 @@ You will be evaluated against your ability to understand and use the tooling pro
 There are 3 main components for this feature, they **MUST** be completed and working:
 
 1. Listing of the movie reviews.✅
-2. Editing the existing movie reviews.
+2. Editing the existing movie reviews.✅
 3. Adding additional reviews.✅
 
 Additional things we would like to see, you **must do at least 5** of these:

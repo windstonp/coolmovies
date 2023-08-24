@@ -19,7 +19,11 @@ import Check from "@mui/icons-material/Check";
 
 import { stringAvatar } from "../../../../utils";
 import { useState } from "react";
-import { useAppSelector } from "../../../../redux";
+import {
+  moviesActions,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../redux";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { reviewSchema } from "../../../../validators";
@@ -39,6 +43,7 @@ type Props = {
 
 export function ReviewItem({ item }: Props) {
   const { currentUser } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState(false);
 
   const {
@@ -52,7 +57,17 @@ export function ReviewItem({ item }: Props) {
   });
 
   function submitEdit(data: any) {
+    dispatch(
+      moviesActions.fetchEditMovieReviewById({
+        data: {
+          ...data,
+          id: item.id,
+          userReviewerId: currentUser?.id,
+        },
+      })
+    );
     setIsEditing(false);
+    reset();
   }
 
   const ActiveEdit = isEditing ? (
