@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const QUERY_GET_ALL_MOVIES = gql`
-  query AllMovies {
+  query getAllMovies {
     allMovies {
       nodes {
         id
@@ -22,7 +22,7 @@ export const QUERY_GET_ALL_MOVIES = gql`
 `;
 
 export const QUERY_ALL_MOVIE_REVIEWS_BY_MOVIE_ID = gql`
-  query allMovieReviews($movieId: UUID) {
+  query getAllReviewsFromMovie($movieId: UUID) {
     allMovieReviews(filter: { movieId: { equalTo: $movieId } }) {
       nodes {
         id

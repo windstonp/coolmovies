@@ -1,20 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export type User = {
-  id: string;
-  name: string;
-};
+import { AllUsersType, UserType } from "../../../types/users";
 
 interface AuthState {
-  currentUser?: User;
-  allUsers: {
-    nodes: User[];
-  };
+  currentUser?: UserType;
+  allUsers: AllUsersType;
   allUsersError?: string;
 }
 
 const initialState: AuthState = {
-  currentUser: {} as User,
+  currentUser: {} as UserType,
   allUsers: { nodes: [] },
   allUsersError: undefined,
 };
@@ -27,10 +21,17 @@ export const slice = createSlice({
     clearCurrentUser: (state) => {
       state.currentUser = undefined;
     },
-    setCurrentUser: (state, action: PayloadAction<{ data: User }>) => {
+    setCurrentUser: (state, action: PayloadAction<{ data: UserType }>) => {
       state.currentUser = action.payload.data;
     },
-    getAllUsers: (state, action: PayloadAction<{ data: any }>) => {
+    getAllUsers: (
+      state,
+      action: PayloadAction<{
+        data: {
+          allUsers: AllUsersType;
+        };
+      }>
+    ) => {
       state.allUsers = action.payload.data.allUsers;
     },
     getAllUsersError: (state) => {

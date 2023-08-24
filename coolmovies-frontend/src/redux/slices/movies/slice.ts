@@ -1,15 +1,34 @@
 import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import {
+  AllMoviesType,
+  CreateMovieReviewType,
+  FetchMovieEditReviewType,
+  FetchMovieReviewType,
+  MovieReviewType,
+  ReviewsType,
+  SelectedMovieType,
+} from "../../../types";
 
 interface MovieState {
-  allMovies?: any;
-  reviews?: any;
-  selectedMovie: any;
+  allMovies: AllMoviesType;
+  reviews: ReviewsType;
+  selectedMovie: SelectedMovieType | {};
+  reviewsError: string | null;
+  moviesError: string | null;
 }
 
 const initialState: MovieState = {
-  reviews: [],
+  reviews: {
+    allMovieReviews: {
+      nodes: [],
+    },
+  },
+  reviewsError: null,
+  moviesError: null,
   allMovies: {
-    nodes: [],
+    allMovies: {
+      nodes: [],
+    },
   },
   selectedMovie: {},
 };
@@ -19,24 +38,27 @@ export const slice = createSlice({
   name: "movies",
   reducers: {
     fetchMovies: () => {},
-    fetchReviewsByMovieId: (state, action: PayloadAction<{ id: any }>) => {},
+    fetchReviewsByMovieId: (state, action: PayloadAction<{ id: string }>) => {},
     fetchEditMovieReviewById: (
       state,
-      action: PayloadAction<{ data: any }>
+      action: PayloadAction<{ data: FetchMovieEditReviewType }>
     ) => {},
-    fetchCreateMovieReview: (state, action: PayloadAction<{ data: any }>) => {},
-    getMovies: (state, action: PayloadAction<{ data: unknown[] }>) => {
+    fetchCreateMovieReview: (
+      state,
+      action: PayloadAction<{ data: FetchMovieReviewType }>
+    ) => {},
+    getMovies: (state, action: PayloadAction<{ data: AllMoviesType }>) => {
       state.allMovies = action.payload.data;
     },
     getMoviesError: (state) => {
-      state.allMovies = ["Error Fetching :("];
+      state.moviesError = "Error Fetching :(";
     },
-    getReviews: (state, action: PayloadAction<{ data: unknown[] }>) => {
+    getReviews: (state, action: PayloadAction<{ data: ReviewsType }>) => {
       state.reviews = action.payload.data;
     },
     addNewReviewToList: (
       state,
-      action: PayloadAction<{ createMovieReview: any }>
+      action: PayloadAction<{ createMovieReview: CreateMovieReviewType }>
     ) => {
       state.reviews = {
         allMovieReviews: {
@@ -49,11 +71,13 @@ export const slice = createSlice({
     },
     updateReviewFromReviewList: (
       state,
-      { payload }: PayloadAction<{ updateMovieReviewById: any }>
+      {
+        payload,
+      }: PayloadAction<{ updateMovieReviewById: CreateMovieReviewType }>
     ) => {
       let actualNodes = current(state.reviews.allMovieReviews.nodes);
 
-      const items = actualNodes.map((item: any) => {
+      const items = actualNodes.map((item: MovieReviewType) => {
         if (item.id === payload.updateMovieReviewById.movieReview.id) {
           return { ...item, ...payload.updateMovieReviewById.movieReview };
         }
@@ -67,9 +91,12 @@ export const slice = createSlice({
       };
     },
     getReviewsError: (state) => {
-      state.reviews = ["Error Fetching :("];
+      state.reviewsError = "Error Fetching :(";
     },
-    setSelectedMovie: (state, action: PayloadAction<{ selected: any }>) => {
+    setSelectedMovie: (
+      state,
+      action: PayloadAction<{ selected: SelectedMovieType }>
+    ) => {
       state.selectedMovie = action.payload.selected;
     },
     clearSelectedMovie: (state) => {

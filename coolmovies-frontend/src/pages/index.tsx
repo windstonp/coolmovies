@@ -17,7 +17,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     dispatch(authActions.fetchAllUser());
-  });
+  }, []);
 
   useEffect(() => {
     if (currentUser?.id) {

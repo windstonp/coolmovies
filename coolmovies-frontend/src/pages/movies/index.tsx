@@ -9,6 +9,7 @@ import type { NextPage } from "next";
 import { moviesActions, useAppDispatch, useAppSelector } from "../../redux";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { MovieType, SelectedMovieType } from "../../types";
 
 const Movies: NextPage = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +24,7 @@ const Movies: NextPage = () => {
     router.push("/");
   }
 
-  function goToSelectedMovie(item: any) {
+  function goToSelectedMovie(item: SelectedMovieType) {
     dispatch(moviesActions.setSelectedMovie({ selected: item }));
     router.push(`/reviews/${item.id}`);
   }
@@ -36,7 +37,7 @@ const Movies: NextPage = () => {
     <Grid container justifyContent="center">
       <Grid item xs={10}>
         <Grid container flexWrap="wrap" justifyContent="center" spacing={2}>
-          {allMovies?.nodes.map((item: any) => (
+          {allMovies?.nodes.map((item: MovieType) => (
             <Grid item xs={12} md={6} lg={4} key={item.id}>
               <CardActionArea onClick={() => goToSelectedMovie(item)}>
                 <CardMedia

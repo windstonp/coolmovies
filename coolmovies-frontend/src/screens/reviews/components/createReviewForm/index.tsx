@@ -14,6 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { reviewSchema } from "../../../../validators";
 import { useDispatch } from "react-redux";
 import { moviesActions, useAppSelector } from "../../../../redux";
+import { MovieFormDataType } from "../../../../types";
 
 type Props = {
   movieId: string;
@@ -30,13 +31,13 @@ export function CreateReviewForm({ movieId }: Props) {
     reset,
   } = useForm({ resolver: yupResolver(reviewSchema) });
 
-  function SubmitCreateForm(data: any) {
+  function SubmitCreateForm(data: MovieFormDataType) {
     dispatch(
       moviesActions.fetchCreateMovieReview({
         data: {
           ...data,
           movieId,
-          userReviewerId: currentUser?.id,
+          userReviewerId: currentUser!.id,
         },
       })
     );

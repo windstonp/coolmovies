@@ -9,16 +9,22 @@ import {
 import { CreateReviewForm } from "./components/createReviewForm";
 import StarIcon from "@mui/icons-material/Star";
 import { ReviewItem } from "./components/reviewItem";
+import { MovieReviewType, ReviewsType, SelectedMovieType } from "../../types";
+
+type Props = {
+  selectedMovie: SelectedMovieType | {};
+  reviews: ReviewsType;
+};
 
 export function ReviewScreen({
   selectedMovie,
   reviews: { allMovieReviews },
-}: any) {
+}: Props) {
   let averageRating = 0;
 
   if (allMovieReviews?.nodes.length > 0) {
     const totalRatings = allMovieReviews?.nodes.reduce(
-      (sum: number, item: any) => sum + item.rating,
+      (sum: number, item: MovieReviewType) => sum + item.rating,
       0
     );
 
@@ -57,7 +63,7 @@ export function ReviewScreen({
           >
             <img
               style={{ width: "100%" }}
-              alt={selectedMovie.name}
+              alt={selectedMovie.title}
               src={selectedMovie.imgUrl}
               loading="lazy"
             />
@@ -69,7 +75,7 @@ export function ReviewScreen({
                   width: "100%",
                 }}
               >
-                {allMovieReviews?.nodes.map((item: any) => (
+                {allMovieReviews?.nodes.map((item: MovieReview) => (
                   <ReviewItem item={item} key={item.id} />
                 ))}
               </List>

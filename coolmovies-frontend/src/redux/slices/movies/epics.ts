@@ -12,6 +12,7 @@ import {
   MUTATION_CREATE_MOVIE_REVIEW,
   MUTATION_EDIT_MOVIE_REVIEW_BY_ID,
 } from "../../../graphql/mutation/moviesReview";
+import { FetchMovieEditReviewType, FetchMovieReviewType } from "../../../types";
 
 export const moviesAsyncEpic: Epic = (
   action$: Observable<SliceAction["fetchMovies"]>,
@@ -39,7 +40,7 @@ export const fetchReviewsAsyncEpic: Epic = (
 ) =>
   action$.pipe(
     filter(actions.fetchReviewsByMovieId.match),
-    switchMap(async ({ payload }: any) => {
+    switchMap(async ({ payload }: { payload: { id: string } }) => {
       try {
         const result = await client.query({
           query: QUERY_ALL_MOVIE_REVIEWS_BY_MOVIE_ID,
@@ -62,21 +63,23 @@ export const createMovieReviewAsyncEpic: Epic = (
 ) =>
   action$.pipe(
     filter(actions.fetchCreateMovieReview.match),
-    switchMap(async ({ payload }: any) => {
-      try {
-        const result = await client.mutate({
-          mutation: MUTATION_CREATE_MOVIE_REVIEW,
-          variables: {
-            input: {
-              movieReview: payload.data,
+    switchMap(
+      async ({ payload }: { payload: { data: FetchMovieReviewType } }) => {
+        try {
+          const result = await client.mutate({
+            mutation: MUTATION_CREATE_MOVIE_REVIEW,
+            variables: {
+              input: {
+                movieReview: payload.data,
+              },
             },
-          },
-        });
-        return actions.addNewReviewToList(result.data);
-      } catch (err) {
-        return actions.getReviewsError();
+          });
+          return actions.addNewReviewToList(result.data);
+        } catch (err) {
+          return actions.getReviewsError();
+        }
       }
-    })
+    )
   );
 
 export const editMovieReviewAsyncEpic: Epic = (
@@ -86,22 +89,24 @@ export const editMovieReviewAsyncEpic: Epic = (
 ) =>
   action$.pipe(
     filter(actions.fetchEditMovieReviewById.match),
-    switchMap(async ({ payload }: any) => {
-      try {
-        const result = await client.mutate({
-          mutation: MUTATION_EDIT_MOVIE_REVIEW_BY_ID,
-          variables: {
-            input: {
-              id: payload.data.id,
-              movieReviewPatch: {
-                ...payload.data,
+    switchMap(
+      async ({ payload }: { payload: { data: FetchMovieEditReviewType } }) => {
+        try {
+          const result = await client.mutate({
+            mutation: MUTATION_EDIT_MOVIE_REVIEW_BY_ID,
+            variables: {
+              input: {
+                id: payload.data.id,
+                movieReviewPatch: {
+                  ...payload.data,
+                },
               },
             },
-          },
-        });
-        return actions.updateReviewFromReviewList(result.data);
-      } catch (err) {
-        return actions.getReviewsError();
+          });
+          return actions.updateReviewFromReviewList(result.data);
+        } catch (err) {
+          return actions.getReviewsError();
+        }
       }
-    })
+    )
   );

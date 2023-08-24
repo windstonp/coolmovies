@@ -27,18 +27,10 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { reviewSchema } from "../../../../validators";
+import { MovieFormDataType, MovieReviewType } from "../../../../types";
 
 type Props = {
-  item: {
-    id: string;
-    title: string;
-    body: string;
-    rating: number;
-    userByUserReviewerId: {
-      name: string;
-      id: string;
-    };
-  };
+  item: MovieReviewType;
 };
 
 export function ReviewItem({ item }: Props) {
@@ -56,13 +48,13 @@ export function ReviewItem({ item }: Props) {
     resolver: yupResolver(reviewSchema),
   });
 
-  function submitEdit(data: any) {
+  function submitEdit(data: MovieFormDataType) {
     dispatch(
       moviesActions.fetchEditMovieReviewById({
         data: {
           ...data,
           id: item.id,
-          userReviewerId: currentUser?.id,
+          userReviewerId: currentUser!.id,
         },
       })
     );
