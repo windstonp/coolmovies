@@ -46,7 +46,6 @@ export const fetchReviewsAsyncEpic: Epic = (
         });
         return actions.getReviews({ data: result.data });
       } catch (err) {
-        console.log(err);
         return actions.getReviewsError();
       }
     })
@@ -71,7 +70,6 @@ export const createMovieReviewAsyncEpic: Epic = (
         });
         return actions.addNewReviewToList(result.data);
       } catch (err) {
-        console.log(err);
         return actions.getReviewsError();
       }
     })

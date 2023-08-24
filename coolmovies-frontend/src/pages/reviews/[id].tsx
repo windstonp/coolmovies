@@ -24,8 +24,7 @@ function MovieReviews() {
     if (router.query.id) {
       dispatch(moviesActions.fetchReviewsByMovieId({ id: router.query.id }));
     }
-  });
-  console.log(reviews);
+  }, []);
 
   return <ReviewScreen reviews={reviews} selectedMovie={selectedMovie} />;
 }

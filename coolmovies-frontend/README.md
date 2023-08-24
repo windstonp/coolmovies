@@ -33,7 +33,7 @@ There are 3 main components for this feature, they **MUST** be completed and wor
 
 1. Listing of the movie reviews.✅
 2. Editing the existing movie reviews.
-3. Adding additional reviews.
+3. Adding additional reviews.✅
 
 Additional things we would like to see, you **must do at least 5** of these:
 
@@ -41,6 +41,6 @@ Additional things we would like to see, you **must do at least 5** of these:
 2. The design is responsive.✅
 3. Our designers don't like the default MUI blue. Change this. ✅
 4. Make the proxied GraphQL URL an environment variable.
-5. Improve the folder structure of the frontend application how you see fit. (It's intentionally not great)
+5. Improve the folder structure of the frontend application how you see fit. (It's intentionally not great)✅
 6. Add the custom `edit.svg` from the `public` folder as an icon to launch editing the review.
 7. Add a unit testing framework of your choice, and some unit tests around the more complex areas of your code.

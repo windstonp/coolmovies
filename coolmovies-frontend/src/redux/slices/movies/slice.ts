@@ -38,12 +38,14 @@ export const slice = createSlice({
       state,
       action: PayloadAction<{ createMovieReview: any }>
     ) => {
-      if (current(state.reviews?.allMovieReviews?.nodes)) {
-        state.reviews.allMovieReviews.nodes = [
-          action.payload.createMovieReview.movieReview,
-          ...state.reviews.allMovieReviews.nodes,
-        ];
-      }
+      state.reviews = {
+        allMovieReviews: {
+          nodes: [
+            ...current(state.reviews.allMovieReviews.nodes),
+            action.payload.createMovieReview.movieReview,
+          ],
+        },
+      };
     },
     getReviewsError: (state) => {
       state.reviews = ["Error Fetching :("];
