@@ -1,18 +1,14 @@
 import {
-  Avatar,
   Container,
-  Divider,
   Grid,
   List,
-  ListItem,
-  ListItemText,
   Paper,
   Rating,
   Typography,
 } from "@mui/material";
-import { stringAvatar } from "../../utils";
 import { CreateReviewForm } from "./components/createReviewForm";
 import StarIcon from "@mui/icons-material/Star";
+import { ReviewItem } from "./components/reviewItem";
 
 export function ReviewScreen({
   selectedMovie,
@@ -74,60 +70,7 @@ export function ReviewScreen({
                 }}
               >
                 {allMovieReviews?.nodes.map((item: any) => (
-                  <div key={item.id}>
-                    <ListItem alignItems="flex-start">
-                      <ListItemText
-                        primary={item.title}
-                        secondary={<>{item.body}</>}
-                      />
-                    </ListItem>
-                    <Grid
-                      container
-                      my={2}
-                      px={2}
-                      spacing={2}
-                      justifyContent="space-between"
-                      alignItems="center"
-                    >
-                      <Grid item>
-                        <Rating
-                          readOnly
-                          value={item.rating}
-                          size="small"
-                          emptyIcon={
-                            <StarIcon
-                              style={{ opacity: 0.55 }}
-                              fontSize="inherit"
-                            />
-                          }
-                        />
-                      </Grid>
-                      <Grid item>
-                        <Grid
-                          container
-                          justifyContent="center"
-                          alignItems="center"
-                        >
-                          <Avatar
-                            {...stringAvatar(
-                              item.userByUserReviewerId.name,
-                              30
-                            )}
-                          />
-
-                          <Typography
-                            sx={{ display: "inline", marginLeft: 2 }}
-                            component="span"
-                            variant="body2"
-                            color="text.primary"
-                          >
-                            {item.userByUserReviewerId.name}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Divider variant="inset" component="li" />
-                  </div>
+                  <ReviewItem item={item} key={item.id} />
                 ))}
               </List>
             </Paper>

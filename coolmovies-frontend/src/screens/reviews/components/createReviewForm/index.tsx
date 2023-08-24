@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { reviewCreateSchema } from "../../../../validators";
+import { reviewSchema } from "../../../../validators";
 import { useDispatch } from "react-redux";
 import { moviesActions, useAppSelector } from "../../../../redux";
 
@@ -27,7 +27,8 @@ export function CreateReviewForm({ movieId }: Props) {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(reviewCreateSchema) });
+    reset,
+  } = useForm({ resolver: yupResolver(reviewSchema) });
 
   function SubmitCreateForm(data: any) {
     dispatch(
@@ -39,6 +40,7 @@ export function CreateReviewForm({ movieId }: Props) {
         },
       })
     );
+    reset();
   }
   return (
     <Paper elevation={4} sx={{ padding: 2 }}>

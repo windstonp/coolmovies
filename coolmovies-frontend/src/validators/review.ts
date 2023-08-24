@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const reviewCreateSchema = yup.object().shape({
+export const reviewSchema = yup.object().shape({
   title: yup
     .string()
     .required("You need to provide a title to create a Review!"),

@@ -42,5 +42,5 @@ Additional things we would like to see, you **must do at least 5** of these:
 3. Our designers don't like the default MUI blue. Change this. ✅
 4. Make the proxied GraphQL URL an environment variable.
 5. Improve the folder structure of the frontend application how you see fit. (It's intentionally not great)✅
-6. Add the custom `edit.svg` from the `public` folder as an icon to launch editing the review.
+6. Add the custom `edit.svg` from the `public` folder as an icon to launch editing the review.✅
 7. Add a unit testing framework of your choice, and some unit tests around the more complex areas of your code.

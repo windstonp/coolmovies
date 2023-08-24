@@ -10,6 +10,7 @@ export const MUTATION_CREATE_MOVIE_REVIEW = gql`
         rating
         userByUserReviewerId {
           name
+          id
         }
       }
     }

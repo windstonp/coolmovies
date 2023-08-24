@@ -1,17 +1,6 @@
-import {
-  Avatar,
-  CardActionArea,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Avatar, ButtonBase, Container, Grid, Typography } from "@mui/material";
 import type { NextPage } from "next";
-import {
-  authActions,
-  moviesActions,
-  useAppDispatch,
-  useAppSelector,
-} from "../redux";
+import { authActions, useAppDispatch, useAppSelector } from "../redux";
 import { useEffect } from "react";
 import { stringAvatar } from "../utils";
 import { User } from "../redux/slices/auth/slice";
@@ -21,8 +10,6 @@ const Home: NextPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { allUsers, currentUser } = useAppSelector((state) => state.auth);
-
-  const { selectedMovie } = useAppSelector((state) => state.movies);
 
   function setCurrentUser(user: User) {
     dispatch(authActions.setCurrentUser({ data: user }));
@@ -49,7 +36,7 @@ const Home: NextPage = () => {
             return (
               <Grid item xs={12} md={6} lg={4} key={user.id}>
                 <Grid container justifyContent="center" alignItems="center">
-                  <CardActionArea
+                  <ButtonBase
                     sx={{ width: "100%", paddingTop: 4, paddingBottom: 4 }}
                     onClick={() => setCurrentUser(user)}
                   >
@@ -65,7 +52,7 @@ const Home: NextPage = () => {
                         {user.name}
                       </Typography>
                     </div>
-                  </CardActionArea>
+                  </ButtonBase>
                 </Grid>
               </Grid>
             );
