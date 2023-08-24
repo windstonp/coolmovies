@@ -1,6 +1,17 @@
-import { Avatar, Button, Grid, Typography } from "@mui/material";
+import {
+  Avatar,
+  CardActionArea,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
 import type { NextPage } from "next";
-import { authActions, useAppDispatch, useAppSelector } from "../redux";
+import {
+  authActions,
+  moviesActions,
+  useAppDispatch,
+  useAppSelector,
+} from "../redux";
 import { useEffect } from "react";
 import { stringAvatar } from "../utils";
 import { User } from "../redux/slices/auth/slice";
@@ -10,6 +21,8 @@ const Home: NextPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { allUsers, currentUser } = useAppSelector((state) => state.auth);
+
+  const { selectedMovie } = useAppSelector((state) => state.movies);
 
   function setCurrentUser(user: User) {
     dispatch(authActions.setCurrentUser({ data: user }));
@@ -26,24 +39,22 @@ const Home: NextPage = () => {
   }, [currentUser]);
 
   return (
-    <Grid container justifyContent="center">
+    <Container>
       <Typography textAlign="center" variant="h2">
         Choose your user!
       </Typography>
       <Grid container justifyContent="center" mt={4}>
-        <Grid container xs={10}>
+        <Grid container>
           {allUsers?.nodes.map((user) => {
             return (
               <Grid item xs={12} md={6} lg={4} key={user.id}>
                 <Grid container justifyContent="center" alignItems="center">
-                  <Button
+                  <CardActionArea
                     sx={{ width: "100%", paddingTop: 4, paddingBottom: 4 }}
-                    size="large"
-                    variant="text"
                     onClick={() => setCurrentUser(user)}
                   >
                     <div>
-                      <Avatar {...stringAvatar(user.name)} />
+                      <Avatar {...stringAvatar(user.name, 76)} />
                       <Typography
                         mt={2}
                         fontSize={24}
@@ -54,14 +65,14 @@ const Home: NextPage = () => {
                         {user.name}
                       </Typography>
                     </div>
-                  </Button>
+                  </CardActionArea>
                 </Grid>
               </Grid>
             );
           })}
         </Grid>
       </Grid>
-    </Grid>
+    </Container>
   );
 };
 

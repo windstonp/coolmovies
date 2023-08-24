@@ -16,12 +16,12 @@ export function stringToColor(string: string) {
   return color;
 }
 
-export function stringAvatar(name: string) {
+export function stringAvatar(name: string, size: number) {
   return {
     sx: {
       bgcolor: stringToColor(name),
-      width: 72,
-      height: 72,
+      width: size,
+      height: size,
       margin: "auto",
     },
     children: `${name.split(" ")[0][0]}`,
